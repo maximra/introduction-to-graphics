@@ -1,0 +1,235 @@
+#include<math.h>
+#include<stdio.h>
+#include<Windows.h>
+#include<iostream>
+#include<time.h>
+#define P 3.14159265
+int function3(int *arr);
+class painting {
+public:
+	HWND myconsole = GetConsoleWindow();
+	HDC mydc = GetDC(myconsole);
+
+	void function(int x)
+	{
+		if (x == 1)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+			SetPixel(mydc,  50 + 20 * cos(i), 150 + 20 * sin(i), RGB(255, 0, 0));
+		}
+		else if (x == 2)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+			SetPixel(mydc, 150 + 20 * cos(i), 150 + 20 * sin(i), RGB(255, 0, 0));
+		}
+		else if (x == 3)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 250 + 20 * cos(i), 150 + 20 * sin(i), RGB(255, 0, 0));
+		}
+		else if (x == 4)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 50 + 20 * cos(i), 250 + 20 * sin(i), RGB(255, 0, 0));
+		}
+		else if (x == 5)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 150 + 20 * cos(i), 250 + 20 * sin(i), RGB(255, 0, 0));
+		}
+		else if (x == 6)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 250 + 20 * cos(i), 250 + 20 * sin(i), RGB(255, 0, 0));
+		}
+		else if(x==7)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 50 + 20 * cos(i), 350 + 20 * sin(i), RGB(255, 0, 0));
+		}
+		else if (x == 8)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 150 + 20 * cos(i), 350 + 20 * sin(i), RGB(255, 0, 0));
+		}
+		else if (x == 9)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 250 + 20 * cos(i), 350 + 20 * sin(i), RGB(255, 0, 0));
+		}
+		else{}
+	}
+	void function2(int x)
+	{
+		if (x == 1)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 50 + 20 * cos(i), 150 + 20 * sin(i), RGB(0, 255, 0));
+		}
+		else if (x == 2)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 150 + 20 * cos(i), 150 + 20 * sin(i), RGB(0, 255, 0));
+		}
+		else if (x == 3)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 250 + 20 * cos(i), 150 + 20 * sin(i), RGB(0, 255, 0));
+		}
+		else if (x == 4)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 50 + 20 * cos(i), 250 + 20 * sin(i), RGB(0, 255, 0));
+		}
+		else if (x == 5)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 150 + 20 * cos(i), 250 + 20 * sin(i), RGB(0, 255, 0));
+		}
+		else if (x == 6)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 250 + 20 * cos(i), 250 + 20 * sin(i), RGB(0, 255, 0));
+		}
+		else if (x == 7)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 50 + 20 * cos(i), 350 + 20 * sin(i), RGB(0, 255, 0));
+		}
+		else if (x == 8)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 150 + 20 * cos(i), 350 + 20 * sin(i), RGB(0, 255, 0));
+		}
+		else if (x == 9)
+		{
+			for (double i = 0; i < 200 * P; i += 0.01)
+				SetPixel(mydc, 250 + 20 * cos(i), 350 + 20 * sin(i), RGB(0, 255, 0));
+		}
+		else {}
+	}
+};
+using namespace std;
+int main()
+{
+	srand(time(NULL));
+	HWND myconsole = GetConsoleWindow();
+	HDC mydc = GetDC(myconsole);
+
+	for (double i = 0; i < 200 * P; i += 0.01)
+	{
+		SetPixel(mydc, i+25+20 * cos(i),30+ 20 * sin(i), RGB(255, 0, 0));
+		SetPixel(mydc, i +  20 * cos(i),30+ 20 * sin(i), RGB(0, 255, 0));
+	}
+	for (int i = 0; i < 300; i++)
+	{
+		SetPixel(mydc, i, 100, RGB(255, 255, 255));
+		SetPixel(mydc, i, 200, RGB(255, 255, 255));
+		SetPixel(mydc, i, 300, RGB(255, 255, 255));
+		SetPixel(mydc, i, 400, RGB(255, 255, 255));
+		SetPixel(mydc, 300, 100 + i, RGB(255, 255, 255));
+		SetPixel(mydc, 200, 100 + i, RGB(255, 255, 255));
+		SetPixel(mydc, 100, 100 + i , RGB(255, 255, 255));
+
+	}
+	painting circle;
+	int k;
+	int oper=1;
+	int arr[10] = { 1,0,0,0,0,0,0,0,0,0 };
+	int brr[10]= { 1,0,0,0,0,0,0,0,0,0 };
+	int crr[10] = { 1,0,0,0,0,0,0,0,0,0 };
+	printf("enter something\n");
+	for (int i = 0; i < 9; )
+	{
+		scanf_s("%d", &k);
+		for (;;)
+		{
+			if (k > 0 && k < 10)
+			{
+				if (arr[k] == 0)
+				{
+					arr[k]++;
+					brr[k] = arr[k];
+					i++;
+					break;
+				}
+			}
+			scanf_s("%d", &k);
+		}
+		circle.function(k);
+		if (function3(brr) == 1)
+		{
+			printf("player won");
+			ReleaseDC(myconsole, mydc);
+			cin.ignore();
+			return 0;
+		}
+		if (i == 9)
+		{
+			break;
+		}
+		for (;;) 
+		{
+			if (arr[oper] == 0)
+			{
+				arr[oper]++;
+				crr[oper] = arr[oper];
+				circle.function2(oper);
+				oper = 1;
+				i++;
+				break;
+			}
+			oper = rand()%10;
+		}
+		if (function3(crr) == 1)
+		{
+			printf("AI won");
+			ReleaseDC(myconsole, mydc);
+			cin.ignore();
+			return 0;
+		}
+	}
+	ReleaseDC(myconsole, mydc);
+	cin.ignore();
+	return 0;
+	
+}
+int function3(int *arr)
+{
+	if(arr[1]==1&&arr[2]==1&&arr[3]==1)
+	{
+		return 1;
+	}
+	else if (arr[4] == 1 && arr[5] == 1 && arr[6] == 1)
+	{
+		return 1;
+	}
+	else if (arr[7] == 1 && arr[8] == 1 && arr[9] == 1)
+	{
+		return 1;
+	}
+	else if (arr[1] == 1 && arr[4] == 1 && arr[7] == 1)
+	{
+		return 1;
+	}
+	else if (arr[2] == 1 && arr[5] == 1 && arr[8] == 1)
+	{
+		return 1;
+	}
+	else if (arr[3] == 1 && arr[6] == 1 && arr[9] == 1)
+	{
+		return 1;
+	}
+	else if (arr[1] == 1 && arr[5] == 1 && arr[9] == 1)
+	{
+		return 1;
+	}
+	else if (arr[3] == 1 && arr[5] == 1 && arr[7] == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
