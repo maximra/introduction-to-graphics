@@ -1,0 +1,211 @@
+#include<windows.h>
+#include<iostream>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+using namespace std;
+class hello {
+public:
+	HWND myconsole = GetConsoleWindow();
+	HDC mydc = GetDC(myconsole);
+	COLORREF color = RGB(244, 100, 100);
+	COLORREF color2 = RGB(254, 254, 254);
+	void function1()
+	{
+		for (int i = 100; i < 700; i++)
+		{
+			SetPixel(mydc, i, 0, color);
+		}
+		for (int i = 100; i < 700; i++)
+		{
+			SetPixel(mydc, i, 400, color);
+		}
+		for (int i = 0; i < 400; i++)
+		{
+			SetPixel(mydc, 100, i, color);
+		}
+		for (int i = 0; i < 400; i++)
+		{
+			SetPixel(mydc, 700, i, color);
+		}
+		for (int i = 100; i < 700; i++)
+		{
+			for (int j = 0; j < 400; j++)
+			{
+				SetPixel(mydc, i, j, color2);
+			}
+		}
+	}
+	void function2_down(int x, int y)
+	{
+		for (int j = 0; j < 100; j++)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				SetPixel(mydc, i + 100 + x*100, y*100 + j, color);
+			}
+		}
+	}
+	void function2_up(int x, int y)
+	{
+		for (int j = 99 ;j >= 0; j--)
+		{
+			for (int i = 99; i >= 0; i--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color);
+			}
+		}
+	}
+	void function2_left(int x, int y)
+	{
+		for (int i = 99; i >= 0; i--)
+		{
+			for (int j = 99; j >= 0; j--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color);
+			}
+		}
+	}
+	void function2_right(int x, int y)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			for (int j = 99; j >= 0; j--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color);
+			}
+		}
+	}
+	void function_reset_cube_down(int x, int y)
+	{
+		for (int j = 99; j >= 0; j--)
+		{
+			for (int i = 99; i >= 0; i--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color2);
+			}
+		}
+	}
+	void function_reset_cube_up(int x, int y)
+	{
+		for (int j = 0; j < 100; j++)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color2);
+			}
+		}
+	}
+	void function_reset_cube_left(int x, int y)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			for (int j = 99; j >= 0; j--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color2);
+			}
+		}
+	}
+	void function_reset_cube_right(int x, int y)
+	{
+		for (int i = 99; i >= 0; i--)
+		{
+			for (int j = 99; j >= 0; j--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color2);
+			}
+		}
+	}
+	void function3()
+	{
+		int x = 1;
+		int y =0;
+		int memory3;
+		int memory4;
+		int k=0;
+		for (;;)
+		{
+			memory3 = x;
+			memory4 = y;
+			Sleep(100);
+			k = rand() % 4;
+			if (k == 0)
+			{
+				x++;
+			}
+			else if (k == 1)
+			{	
+				x--;
+			}
+			else if (k == 2)
+			{	
+				y++;
+			}
+			else if (k == 3)
+			{
+				
+				y--;
+			}
+			while (x < 1 || x>5)
+			{
+				if (x < 1)
+				{
+					x++;
+				}
+				else if (x > 5)
+				{
+					x--;
+				}
+			}
+			while (y > 3 || y < 0)
+			{
+				if (y < 0)
+				{
+					y++;
+				}
+				else if (y > 3)
+				{
+					y--;
+				}
+			}
+			if (x > memory3)
+			{
+				function2_right(x, y);
+				
+				function_reset_cube_left(memory3, memory4);
+			}
+			else if (x < memory3)
+			{
+				function2_left(x, y);
+				
+				function_reset_cube_right(memory3, memory4);
+			}
+			else if (y > memory4)
+			{
+				function2_down(x, y);
+				
+				function_reset_cube_up(memory3, memory4);
+			}
+			else if (y < memory4)
+			{
+				function2_up(x, y);
+				
+				function_reset_cube_down(memory3, memory4);
+			}
+		
+		}
+
+	}
+};
+int main()
+{
+	srand(time(NULL));
+	HWND myconsole = GetConsoleWindow();
+	HDC mydc = GetDC(myconsole);
+	hello delta;
+	delta.function1();
+	delta.function3();
+	ReleaseDC(myconsole, mydc);
+	cin.ignore();
+	return 0;
+}
