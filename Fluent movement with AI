@@ -1,0 +1,230 @@
+#include<stdio.h>
+#include<Windows.h>
+#include<stdlib.h>
+#include<time.h>
+class game {
+public:
+	int score = 0;
+	int compare = 0;
+	int sleep = 2000;
+	int x = 5;
+	int y = 5;
+	int memory_i = 0;
+	int memory_j = 0;
+	int memory_arr[10][10];
+	int memory3 = 0;
+	int memory4 = 0;
+	HWND myconsole = GetConsoleWindow();
+	HDC mydc = GetDC(myconsole);
+	COLORREF color = RGB(244, 100, 100);
+	COLORREF color2 = RGB(254, 254, 254);
+	COLORREF color3 = RGB(0, 0, 254);
+	void function1()
+	{
+
+		for (int i = 0; i < 1100; i++)
+		{
+			for (int j = 0; j < 1000; j++)
+			{
+				SetPixel(mydc, i, j, color2);
+			}
+		}
+	}
+	void load_goal()
+	{
+		for (int i = 20; i < 80; i++)
+		{
+			for (int j = 20; j < 80; j++)
+			{
+				SetPixel(mydc, i + 100 + memory_i * 100, memory_j * 100 + j, color3);
+			}
+		}
+	}
+	void delete_goal()
+	{
+		for (int i = 20; i < 80; i++)
+		{
+			for (int j = 20; j < 80; j++)
+			{
+				SetPixel(mydc, i + 100 + memory_i * 100, memory_j * 100 + j, color);
+			}
+		}
+	}
+	void function2_down(int x, int y)
+	{
+		for (int j = 0; j < 100; j++)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color);
+			}
+		}
+	}
+	void function2_up(int x, int y)
+	{
+		for (int j = 99; j >= 0; j--)
+		{
+			for (int i = 99; i >= 0; i--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color);
+			}
+		}
+	}
+	void function2_left(int x, int y)
+	{
+		for (int i = 99; i >= 0; i--)
+		{
+			for (int j = 99; j >= 0; j--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color);
+			}
+		}
+	}
+	void function2_right(int x, int y)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			for (int j = 99; j >= 0; j--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color);
+			}
+		}
+	}
+	void function_reset_cube_down(int x, int y)
+	{
+		for (int j = 99; j >= 0; j--)
+		{
+			for (int i = 99; i >= 0; i--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color2);
+			}
+		}
+	}
+	void function_reset_cube_up(int x, int y)
+	{
+		for (int j = 0; j < 100; j++)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color2);
+			}
+		}
+	}
+	void function_reset_cube_left(int x, int y)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			for (int j = 99; j >= 0; j--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color2);
+			}
+		}
+	}
+	void function_reset_cube_right(int x, int y)
+	{
+		for (int i = 99; i >= 0; i--)
+		{
+			for (int j = 99; j >= 0; j--)
+			{
+				SetPixel(mydc, i + 100 + x * 100, y * 100 + j, color2);
+			}
+		}
+	}
+	void return_value()
+	{
+		if (x < 0 || x == 10 || y < 0 || y == 10)
+		{
+			printf("game over");
+			exit(0);
+		}
+
+		if (x < memory_i)
+		{
+			x++;
+		}
+		else if (x > memory_i)
+		{
+			x--;
+		}
+		else if (y < memory_j)
+		{
+			y++;
+		}
+		else if (y > memory_j)
+		{
+			y--;
+		}
+		else
+		{
+			score++;
+		}
+
+	}
+	void rand_item()
+	{
+		for (;;)
+		{
+			memory_i = rand() % 10;
+			memory_j = rand() % 10;
+			if (memory_i != x && memory_j != y)
+			{
+				compare++;
+				sleep -= 100;
+				break;
+			}
+		}
+	}
+	void start_user()
+	{
+		load_goal();
+		for (; score < 25;)
+		{
+			memory3 = x;
+			memory4 = y;
+			return_value();
+			Sleep(0);
+			if (score > compare)
+			{
+				delete_goal();
+				rand_item();
+				load_goal();
+			}
+			if (x > memory3)
+			{
+				function2_right(x, y);
+
+				function_reset_cube_left(memory3, memory4);
+			}
+			else if (x < memory3)
+			{
+				function2_left(x, y);
+
+				function_reset_cube_right(memory3, memory4);
+			}
+			else if (y > memory4)
+			{
+				function2_down(x, y);
+
+				function_reset_cube_up(memory3, memory4);
+			}
+			else if (y < memory4)
+			{
+				function2_up(x, y);
+
+				function_reset_cube_down(memory3, memory4);
+			}
+
+		}
+		printf("%done");
+		exit(0);
+	}
+};
+int main()
+{
+	HWND myconsole = GetConsoleWindow();
+	HDC mydc = GetDC(myconsole);
+	game axe;
+	axe.function1();
+	axe.start_user();
+	ReleaseDC(myconsole, mydc);
+}
