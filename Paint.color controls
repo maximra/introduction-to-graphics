@@ -1,0 +1,187 @@
+//color changer-controls
+#pragma once
+#include<stdio.h>
+#include<SDL.h>
+#include<iostream>
+#include<stdlib.h>
+#define Length 640
+#define Height 480
+using namespace std;
+class COLOR_CONTROLS{
+public:
+	void color_change(int &color1,int &color2, int &color3)
+	{
+		bool local_gate = true;
+		SDL_Event windowevent;
+		SDL_Window* window2 = NULL;
+		SDL_Renderer* render2 = NULL;
+		//===========
+		//SDL_Surface* surface = NULL;
+		//SDL_Surface* image1 = NULL;
+		//SDL_Renderer* render2 = NULL;
+		//SDL_Texture* texture2 = NULL;
+		//============
+		int arr[3]={0,0,0};
+		int i = 0;
+		int color_mover = 0;
+		window2 = SDL_CreateWindow("color panel\n", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Length, Height, 0);
+		render2 = SDL_CreateRenderer(window2, -1, 0);
+		SDL_SetRenderDrawColor(render2, color1, color2, color3, 255);
+		SDL_RenderClear(render2);
+		SDL_RenderPresent(render2);
+		//=======
+		//surface = SDL_GetWindowSurface(window2);
+	    //image1 = SDL_LoadBMP("color1-3.bmp");
+		//render2 = SDL_CreateRenderer(window2, -1, 0);
+		//texture2 = SDL_CreateTextureFromSurface(render2, image1);
+		//SDL_FreeSurface(image1);
+		//SDL_SetRenderDrawColor(render2, 255, 255, 255, 255);
+		//=======
+		while (local_gate!=false)
+		{
+			//==========
+			//SDL_BlitSurface(image1, NULL, surface, NULL);
+			//SDL_UpdateWindowSurface(window2);
+			//SDL_Rect dstrect = { 0, 0, 1600,900 };
+
+			//SDL_RenderClear(render2);
+			//SDL_RenderCopy(render2, texture2, NULL, &dstrect);
+			//SDL_RenderPresent(render2);
+			//==========
+			while (SDL_PollEvent(&windowevent) != NULL)
+			{
+				if (windowevent.type == SDL_QUIT)
+				{
+					cout << "The application closed\n";
+					local_gate = false;
+					break;
+				}
+				else if (windowevent.type == SDL_KEYUP)
+				{
+					switch (windowevent.key.keysym.sym)
+					{
+					case SDLK_x:
+					{
+						local_gate = false;
+						break;
+					}
+					case SDLK_0:
+					{
+						arr[i] = 0;
+						i++;
+						break;
+					}
+					case SDLK_1:
+					{
+						arr[i] = 1;
+						i++;
+						break;
+					}
+					case SDLK_2:
+					{
+						arr[i] = 2;
+						i++;
+						break;
+					}
+					case SDLK_3:
+					{
+						arr[i] = 3;
+						i++;
+						break;
+					}
+					case SDLK_4:
+					{
+						arr[i] = 4;
+						i++;
+						break;
+					}
+					case SDLK_5:
+					{
+						arr[i] = 5;
+						i++;
+						break;
+					}
+					case SDLK_6:
+					{
+						arr[i] = 6;
+						i++;
+						break;
+					}
+					case SDLK_7:
+					{
+						arr[i] = 7;
+						i++;
+						break;
+					}
+					case SDLK_8:
+					{
+						arr[i] = 8;
+						i++;
+						break;
+					}
+					case SDLK_9:
+					{
+						arr[i] = 9;
+						i++;
+						break;
+					}
+					}
+					if (i == 3)
+					{
+						for (int k = 0; k < 3; k++)
+						{
+							printf("%d", arr[k]);
+						}
+						printf("\n");
+						if (color_mover == 0)
+						{
+							color1 = arr[2];
+							color1 += arr[1] * 10;
+							color1 += arr[0] * 100;
+							if (color1 > 255)
+							{
+								color1 = 255;
+							}
+							color_mover++;
+							SDL_SetRenderDrawColor(render2, color1, color2, color3, 255);
+							SDL_RenderClear(render2);
+							SDL_RenderPresent(render2);
+						}
+						else if (color_mover == 1)
+						{
+							color2 = arr[2];
+							color2 += arr[1] * 10;
+							color2 += arr[0] * 100;
+							if (color2 > 255)
+							{
+								color2 = 255;
+							}
+							color_mover++;
+							SDL_SetRenderDrawColor(render2, color1, color2, color3, 255);
+							SDL_RenderClear(render2);
+							SDL_RenderPresent(render2);
+						}
+						else if(color_mover == 2)
+						{
+							color3 = arr[2];
+							color3 += arr[1] * 10;
+							color3 += arr[0] * 100;
+							if (color3 > 255)
+							{
+								color3 = 255;
+							}
+							local_gate = false;
+							break;
+						}
+						i = 0;
+					}
+				}
+			}
+		}
+		printf("loop escaped\n");
+		//SDL_DestroyTexture(texture2);
+		SDL_DestroyRenderer(render2);
+		SDL_DestroyWindow(window2);
+	}
+private:
+};
