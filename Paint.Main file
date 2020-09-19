@@ -1,0 +1,168 @@
+//main control file
+#include <SDL.h>
+#include<stdio.h>
+#include<iostream>
+#include"Backround1.h"
+#include"Backround_line_creator.h"
+class MAIN_COLOR_CONTROLS : public COLOR_CONTROLS {
+public:
+};
+class Main_Line_Maker : public Line_Maker {
+public:
+};
+using namespace std;
+/////////Screen size control/////
+const int Screen_Height = 1080;
+const int Screen_Length = 1920;
+//////////frame rate control/////
+const int FPS = 9999;
+const int FrameDelay = 1000 / FPS;
+int main(int argc, char** argv)
+{
+	if (SDL_INIT_EVERYTHING == NULL)
+		cout << "Failed to load software" << SDL_GetError;
+	else
+		cout << "Load successful\n";
+	///////declare window pointers/////////
+	SDL_Window* window = NULL;
+	SDL_Renderer* render = NULL;
+	SDL_Surface* imagesurface = NULL;
+	SDL_Event windowevent;
+	/////install main work window//////////
+	window = SDL_CreateWindow("Main Screen\n", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Screen_Length, Screen_Height, 0);
+	imagesurface = SDL_GetWindowSurface(window);
+	if (window == NULL)
+		cout << "Failed to load window" << SDL_GetError;
+	else
+		cout << "window launch successful";
+	render = SDL_CreateRenderer(window, -1, 0);
+	///////////////////////////////////////
+	SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+	SDL_RenderClear(render);
+	SDL_RenderPresent(render);
+	//part of the frame rate control//
+	Uint32 framestart;
+	int frametime;
+	////Main event/////
+	bool gate = true;
+	bool loader = false;
+	bool color_loader = false;
+	int x_mouse, y_mouse;
+	int x_copy_mouse = -1;
+	int y_copy_mouse = -1;
+	int color1 = 255;
+	int color2 = 0;
+	int color3 = 0;
+	SDL_ShowSimpleMessageBox(0, "Instructions", "if you wish to access color control press space", window);
+	MAIN_COLOR_CONTROLS main_color_controls;
+	Main_Line_Maker main_line_maker;
+	while (gate)
+	{
+		//part of the frame rate control//
+		framestart = SDL_GetTicks();
+		//---------------//
+		while (SDL_PollEvent(&windowevent) != NULL)
+		{
+			if (windowevent.type == SDL_QUIT)
+			{
+				cout << "The application closed\n";
+				gate = false;
+				break;
+			}
+			else if (windowevent.type == SDL_MOUSEMOTION)
+			{
+				SDL_GetGlobalMouseState(&x_mouse, &y_mouse);
+				x_copy_mouse = x_mouse;
+				y_copy_mouse = y_mouse;
+			}
+			else if (windowevent.type == SDL_KEYUP)
+			{
+				switch (windowevent.key.keysym.sym)
+				{
+				case SDLK_a:
+				{
+					loader = true;
+					break;
+				}
+				case SDLK_d:
+				{
+					loader = false;
+					break;
+				}
+				case SDLK_SPACE:
+				{
+					SDL_ShowSimpleMessageBox(22, "Instructions", "you have entered the color control panel , to close application press x", window);
+					main_color_controls.color_change(color1, color2, color3);
+					break;
+				}
+				case SDLK_s:
+				{
+					main_line_maker.line_maker(color1, color2, color3);
+					break;
+				}
+				case SDLK_x:
+				{
+					cout << "The application closed\n";
+					gate = false;
+					break;
+				}
+				}
+			}
+			else if (windowevent.type == SDL_MOUSEBUTTONDOWN)
+			{
+				
+				if (windowevent.button.button == SDL_BUTTON_LEFT)
+				{
+					color_loader = true;
+				}
+			
+			}
+			else if (windowevent.type == SDL_MOUSEBUTTONUP) 
+			{
+				if (windowevent.button.button == SDL_BUTTON_LEFT)
+				{
+					color_loader = false;
+				}
+			}
+			if (loader == true)
+			{
+				SDL_SetRenderDrawColor(render, 255, 0, 0, 0);
+				SDL_RenderDrawLine(render, 100, 100, 800, 100);
+				SDL_RenderDrawLine(render, 100, 100, 100, 800);
+				SDL_RenderDrawLine(render, 800, 800, 100, 800);
+				SDL_RenderDrawLine(render, 800, 800, 800, 100);
+				SDL_RenderPresent(render);
+			}
+			else if (loader == false)
+			{
+				SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
+				SDL_RenderClear(render);
+				SDL_RenderPresent(render);
+			}
+			if (gate == true && x_copy_mouse > 100 && x_copy_mouse < 800 && y_copy_mouse>100 && y_copy_mouse < 800 && color_loader==true&& loader==true)
+			{
+				SDL_SetRenderDrawColor(render, color1, color2, color3, 0);
+				SDL_RenderDrawPoint(render, x_copy_mouse, y_copy_mouse);
+				SDL_RenderDrawPoint(render, x_copy_mouse+1, y_copy_mouse);
+				SDL_RenderDrawPoint(render, x_copy_mouse-1, y_copy_mouse);
+				SDL_RenderDrawPoint(render, x_copy_mouse, y_copy_mouse+1);
+				SDL_RenderDrawPoint(render, x_copy_mouse, y_copy_mouse-1);
+				SDL_RenderDrawPoint(render, x_copy_mouse+1, y_copy_mouse+1);
+				SDL_RenderDrawPoint(render, x_copy_mouse-1, y_copy_mouse-1);
+				SDL_RenderDrawPoint(render, x_copy_mouse+1, y_copy_mouse-1);
+				SDL_RenderDrawPoint(render, x_copy_mouse-1, y_copy_mouse+1);
+			}
+
+		}
+		//frame rate conclusion control//////
+		frametime = SDL_GetTicks() - framestart;
+		if (FrameDelay > frametime)
+		{
+			SDL_Delay(FrameDelay - frametime);
+		}
+		//------------------///
+	}
+	SDL_DestroyWindow(window);
+	SDL_DestroyRenderer(render);
+	return 0;
+}
