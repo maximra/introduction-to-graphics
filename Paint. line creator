@@ -1,0 +1,106 @@
+//line creator
+#pragma once
+#include<SDL.h>
+#include<stdio.h>
+#include"Backround1.h"
+#define Length 1920
+#define Height 1080
+class Line_Maker:public COLOR_CONTROLS {
+public:
+	void line_maker(int& color1, int &color2 ,int &color3)
+	{
+		bool local_gate = true;
+		SDL_Event windowevent;
+		SDL_Window* window2 = NULL;
+		SDL_Renderer* render2 = NULL;
+		int x_mouse=-1;
+		int y_mouse=-1;
+		int location_x_1=-1;
+		int location_y_1=-1;
+		int location_x_2=-1;
+		int location_y_2=-1;
+		bool line_memory_control = false;
+		bool line_memory_control2 = false;
+		COLOR_CONTROLS second_changer;
+		window2 = SDL_CreateWindow("color panel\n", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Length, Height, 0);
+		render2 = SDL_CreateRenderer(window2, -1, 0);
+		SDL_SetRenderDrawColor(render2, 255, 255, 255, 255);
+		SDL_RenderClear(render2);
+		SDL_RenderPresent(render2);
+
+		while (local_gate!=false)
+		{
+			while (SDL_PollEvent(&windowevent) != NULL)
+			{
+				if (windowevent.type == SDL_QUIT)
+				{
+					local_gate = false;
+					break;
+				}
+				else if (windowevent.type == SDL_MOUSEMOTION)
+				{
+					SDL_GetGlobalMouseState(&x_mouse, &y_mouse);
+				}
+				else if (windowevent.type == SDL_KEYUP)
+				{
+					switch (windowevent.key.keysym.sym)
+					{
+					case SDLK_x:
+					{
+						local_gate = false;
+						printf("x was detected");
+						break;
+					}
+					case SDLK_SPACE:
+					{
+						second_changer.color_change(color1, color2, color3);
+						break; 
+					}
+					}
+				}
+				else if (windowevent.type == SDL_MOUSEBUTTONUP)
+				{
+					if (windowevent.button.button == SDL_BUTTON_LEFT)
+					{
+						printf("mouse left button detected\n");
+						printf("the locations of x and y that we need were accessed: %d -x %d -t\n", x_mouse, y_mouse);
+						if (line_memory_control == true)
+						{
+							location_x_2 = x_mouse;
+							location_y_2 = y_mouse;
+							line_memory_control2 = true;
+							//here we open the second key
+							//we memorize the second coardinates of the line here
+						}
+						else if(line_memory_control==false)
+						{
+							line_memory_control = true;
+							location_x_1 = x_mouse;
+							location_y_1 = y_mouse;
+						//here we open the first key
+						//we memorize the first coardinates of the line here
+						}
+						printf("%d this is line_memory_control\n", line_memory_control);
+
+					}
+				}
+			}
+			if (line_memory_control2 == true)
+			{
+				//when both keys are true we access the line control 
+				//to close line control we switch both statemenets to false
+				line_memory_control2 = false;
+				line_memory_control = false;
+				SDL_SetRenderDrawColor(render2, color1, color2, color3, 0);
+				SDL_RenderDrawLine(render2, location_x_1, location_y_1, location_x_2, location_y_2);
+				SDL_RenderPresent(render2);
+				printf("Line was successfully loaded\n");
+			}
+	
+		}
+		printf("loop escaped\n");
+		SDL_DestroyRenderer(render2);
+		SDL_DestroyWindow(window2);
+	}
+private:
+};
